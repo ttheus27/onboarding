@@ -1,0 +1,17 @@
+Faça uma tela de  inicial de registro, onde é requisitado o CNPJ, nome da empresa, nome fantasia, Moeda cripto que deseja operar (BTC, ETH, USDC, USDT), telefone com DDD, email, senha e confirmação de senha.
+seria esses o campo da cript seria um drop e nao um botao de escolha, 
+
+devera seguir mais ou menos esse padrao de cores
+
+Fundo navbar/rodapé#2D1B4E (roxo escuro)Botão "Criar Conta"#00C9B1 (teal/verde água)Texto escuro#1A0A3B (roxo muito escuro)Destaque link#00C9B1 (mesmo teal)Fundo página#FFFFFF
+Na parte superior crie uma barra para o progresso de registro, mostrando qual parte o usuario esta,
+a pagina contem somente para registro
+
+Crie uma outra tela 
+Tela para registro de sócios (para simplificar só PF): A tela deverá pedir nome completo, CPF, endereço completo, nacionalidade e participação do sócio, se é PEP, e permitir anexo de múltiplos documentos (Ex: identidade frente e verso, cnh frente e verso)
+
+Faça uma outra tela, so que separada do fluxo que estamos estabelecendo
+Tela para conta já existente. Ela sempre deverá aparecer quando o e-mail 
+Sa uma tela onde usuario podera recuperar senhar, ou entrar apatir daquela tela
+
+Para esse caso, crie uma outra tela de formato de login

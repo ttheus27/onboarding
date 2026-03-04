@@ -1,0 +1,70 @@
+// Importa variáveis ANTES do Bootstrap
+@import 'variables';
+
+// Importa Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// Fonte Inter
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+// ── Base ────────────────────────────────────────
+body {
+  background-color: $bg-primary;
+  color: $text-primary;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+// ── Cards ───────────────────────────────────────
+.card-dark {
+  background-color: $bg-card;
+  border: 1px solid $bg-surface;
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+// ── Inputs ──────────────────────────────────────
+.form-control,
+.form-select {
+  background-color: $bg-surface;
+  border-color: $bg-surface;
+  color: $text-primary;
+
+  &:focus {
+    background-color: $bg-surface;
+    border-color: $accent-primary;
+    color: $text-primary;
+    box-shadow: 0 0 0 3px rgba(0, 201, 177, 0.15);
+  }
+
+  &::placeholder {
+    color: $text-muted;
+  }
+}
+
+// ── Botão gradiente ─────────────────────────────
+.btn-gradient {
+  background: linear-gradient(135deg, $accent-primary 0%, $accent-secondary 100%);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.88;
+    color: #fff;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+  }
+}
+
+// ── Labels ──────────────────────────────────────
+.form-label {
+  color: $text-muted;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}

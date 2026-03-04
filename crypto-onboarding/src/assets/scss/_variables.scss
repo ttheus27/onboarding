@@ -1,0 +1,28 @@
+// ── Fundos ──────────────────────────────
+$bg-primary:  #FFFFFF;
+$bg-card:     #F8F9FA;
+$bg-surface:  #F1F3F5;
+
+// ── Acentos ─────────────────────────────
+$accent-primary:   #00C9B1;
+$accent-secondary: #7B2FBE;
+
+// ── Texto ───────────────────────────────
+$text-primary: #1A1A2E;
+$text-muted:   #6B7280;
+
+// ── Feedback ────────────────────────────
+$success: #10B981;
+$danger:  #EF4444;
+$warning: #F59E0B;
+
+// ── Overrides Bootstrap ─────────────────
+$primary:                  $accent-primary;
+$body-bg:                  $bg-primary;
+$body-color:               $text-primary;
+$border-radius:            12px;
+$font-family-sans-serif:   'Inter', sans-serif;
+$input-bg:                 $bg-surface;
+$input-color:              $text-primary;
+$input-border-color:       #E2E8F0;
+$input-focus-border-color: $accent-primary;

@@ -1,0 +1,3 @@
+<template>
+  tela qualquer
+</template>
