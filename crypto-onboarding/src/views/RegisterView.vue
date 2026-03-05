@@ -3,21 +3,22 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useOnboardingStore } from '../stores/onboarding.js'
 import { storeToRefs } from 'pinia'
+import { registerSchema } from '../services/validators.js'
 
 const router = useRouter()
 const store = useOnboardingStore()
 const { company } = storeToRefs(store)
 
 const acceptedTerms = ref(false)
-const cryptoOptions = ['BTC', 'ETH', 'USDC', 'USDT']
-
 const passwordStrength = ref({ percent: 0, label: '', class: '', color: '' })
+
+// Objeto que guarda os erros de cada campo
+const errors = ref({})
 
 onMounted(() => {
   store.loadFromStorage()
 })
 
-// Formata CNPJ enquanto digita: 00.000.000/0000-00
 function formatCNPJ() {
   let v = company.value.cnpj.replace(/\D/g, '')
   v = v.replace(/^(\d{2})(\d)/, '$1.$2')
@@ -27,7 +28,6 @@ function formatCNPJ() {
   company.value.cnpj = v
 }
 
-// Formata telefone enquanto digita: (11) 99999-9999
 function formatPhone() {
   let v = company.value.phone.replace(/\D/g, '')
   v = v.replace(/^(\d{2})(\d)/, '($1) $2')
@@ -35,7 +35,6 @@ function formatPhone() {
   company.value.phone = v
 }
 
-// Calcula força da senha
 function checkPasswordStrength() {
   const p = company.value.password
   let score = 0
@@ -53,10 +52,27 @@ function checkPasswordStrength() {
   passwordStrength.value = levels[Math.max(0, score - 1)]
 }
 
-function handleSubmit() {
+async function handleSubmit() {
+  errors.value = {}
+
+  // Valida todos os campos com Yup
+  try {
+    await registerSchema.validate(company.value, { abortEarly: false })
+  } catch (err) {
+    // abortEarly: false = mostra TODOS os erros de uma vez
+    err.inner.forEach((e) => {
+      errors.value[e.path] = e.message
+    })
+    return // Para aqui se tiver erro
+  }
+
+  if (!acceptedTerms.value) {
+    errors.value.terms = 'Aceite os termos para continuar'
+    return
+  }
+
   store.saveToStorage()
 
-  // Redireciona para conta existente se e-mail especial
   if (company.value.email === 'exists@transferpay.exchange') {
     router.push('/existing-account')
     return
@@ -124,6 +140,7 @@ function handleSubmit() {
               @input="formatCNPJ"
             />
           </div>
+            <small class="text-danger" v-if="errors.cnpj">{{ errors.cnpj }}</small>
         </div>
 
         <!-- Razão Social -->
@@ -135,6 +152,7 @@ function handleSubmit() {
             class="form-control"
             placeholder="Empresa LTDA"
           />
+            <small class="text-danger" v-if="errors.companyName">{{ errors.companyName }}</small>
         </div>
 
         <!-- Nome Fantasia -->
@@ -146,6 +164,8 @@ function handleSubmit() {
             class="form-control"
             placeholder="Nome Comercial"
           />
+          <small class="text-danger d-block mt-1" v-if="errors.fantasyName">{{ errors.fantasyName }}</small>
+
         </div>
 
       <div class="mb-3">
@@ -172,6 +192,8 @@ function handleSubmit() {
               @input="formatPhone"
             />
           </div>
+        <small class="text-danger d-block mt-1" v-if="errors.phone">{{ errors.phone }}</small>
+
         </div>
 
         <!-- Email -->
@@ -186,6 +208,8 @@ function handleSubmit() {
               placeholder="contato@empresa.com.br"
             />
           </div>
+        <small class="text-danger d-block mt-1" v-if="errors.email">{{ errors.email }}</small>
+
         </div>
 
         <!-- Senha -->
@@ -214,6 +238,8 @@ function handleSubmit() {
               {{ passwordStrength.label }}
             </small>
           </div>
+        <small class="text-danger d-block mt-1" v-if="errors.password">{{ errors.password }}</small>
+
         </div>
 
         <!-- Confirmar Senha -->
@@ -228,6 +254,8 @@ function handleSubmit() {
               placeholder="••••••••"
             />
           </div>
+        <small class="text-danger d-block mt-1" v-if="errors.passwordConfirm">{{ errors.passwordConfirm }}</small>
+
         </div>
 
         <!-- Termos -->
@@ -240,6 +268,7 @@ function handleSubmit() {
             <a href="#" class="text-accent">Política de Privacidade</a>
           </label>
         </div>
+        <small class="text-danger d-block mt-1" v-if="errors.terms">{{ errors.terms }}</small>
 
         <!-- Botão -->
         <button type="submit" class="btn btn-gradient w-100 py-3">
