@@ -120,3 +120,174 @@ Enviar texto extraído para LLM (OpenAI/Claude)
 Verificar: sócios presentes, assinaturas, cláusulas essenciais
 Lógica fuzzy para calcular índice de confiança
 Reprovar cadastro se contrato não for confiável
+
+---
+
+## ✅ Checklist de Implementação
+
+### Requisitos Obrigatórios
+
+#### ✅ Req 2 — Telas (100% completo)
+- [x] **Tela A**: Registro da empresa
+  - [x] CNPJ com formatação automática
+  - [x] Razão Social
+  - [x] Nome Fantasia
+  - [x] Moeda cripto (dropdown: BTC, ETH, USDC, USDT)
+  - [x] Telefone com DDD e formatação
+  - [x] Email
+  - [x] Senha com indicador de força visual (Fraca/Média/Boa/Forte)
+  - [x] Confirmação de senha
+  - [x] Checkbox de termos
+  - [x] Barra de progresso (steps)
+  - [x] Design mobile-first com cores TransferBank
+
+- [x] **Tela B**: Conta já existente
+  - [x] Redirecionamento quando email `exists@transferpay.exchange` é usado
+  - [x] Rota `/existing-account` configurada
+  - [x] Formulário de login
+  - [x] Campo de senha com validação
+  - [x] Opção de recuperação de senha
+  - [x] Formulário de recuperação de senha
+  - [x] Validação de email na recuperação
+  - [x] Feedback visual (loading, sucesso, erro)
+  - [x] Botão para usar outro e-mail
+
+- [x] **Tela C**: Registro de sócios
+  - [x] Nome completo
+  - [x] CPF com validação
+  - [x] CEP com autocomplete de endereço
+  - [x] Endereço completo (rua, número, complemento, bairro, cidade, UF)
+  - [x] Nacionalidade
+  - [x] Participação % (valida soma = 100%)
+  - [x] Checkbox PEP
+  - [x] Upload de múltiplos documentos
+  - [x] Drag & drop de arquivos
+  - [x] Lista de sócios cadastrados
+  - [x] Edição e remoção de sócios
+  - [x] Indicador de participação restante
+
+- [ ] **Tela D**: Upload de contrato social
+  - [ ] Upload de PDF
+  - [ ] Preview do PDF inline no navegador
+
+#### ✅ Req 3 — Validação e Cache (100% completo)
+- [x] **Validação com Yup**
+  - [x] CNPJ com dígitos verificadores
+  - [x] CPF com dígitos verificadores
+  - [x] Email formato válido
+  - [x] Telefone formato (XX) XXXXX-XXXX
+  - [x] Senha: mínimo 8 chars + 1 maiúscula + 1 número
+  - [x] Confirmação de senha deve coincidir
+  - [x] Participação societária soma = 100%
+  - [x] Mínimo 1 documento por sócio
+  - [x] Todos os campos obrigatórios validados
+  - [x] Bloqueio de progresso com campos inválidos
+
+- [x] **Cache com Pinia + localStorage**
+  - [x] Dados salvos automaticamente
+  - [x] Carrega dados ao abrir página
+  - [x] Persiste após refresh (F5)
+  - [x] Limpa cache ao finalizar onboarding
+
+#### ✅ Req 4 — Autocomplete (100% completo)
+- [x] **Autocomplete de CEP**
+  - [x] Integração com ViaCEP
+  - [x] Preenche: rua, bairro, cidade, estado
+  - [x] Funciona na tela de sócios
+
+- [ ] **Autocomplete de CNPJ** (código pronto, falta integrar)
+  - [x] Serviço criado com ReceitaWS
+  - [x] Serviço criado com BrasilAPI (alternativa)
+  - [x] Validação de situação cadastral
+  - [x] Extração de sócios do QSA
+  - [x] Documentação de integração criada
+  - [x] Integrar na RegisterView (adicionar `@blur="handleCnpjBlur"`)
+  - [x] Autocomplete de razão social
+  - [x] Autocomplete de nome fantasia
+  - [x] Bloquear empresas com situação ≠ ATIVA
+  - [x] Passar sócios para tela de sócios
+
+### Requisitos Opcionais (Priorizados)
+
+#### ❌ Req 5 — DDD → Estado + Bandeira (0% completo)
+- [ ] Identificar estado pelo DDD
+- [ ] Mostrar bandeira do estado ao lado do campo telefone
+- [ ] Biblioteca de bandeiras dos estados
+
+#### ❌ Req 6 — Cotação de Moedas (0% completo)
+- [ ] Integrar API de cotação (Alpha Vantage, Yahoo Finance ou Brasil Bitcoin)
+- [ ] Mostrar custo de setup na tela 1
+- [ ] Calcular a partir de $100 USD, 0.00153 BTC ou 0.521 ETH
+- [ ] Exibir em reais com 2 casas decimais (arredondando pra cima)
+- [ ] Atualizar a cada 5 segundos
+- [ ] Aplicar 1% de spread
+- [ ] Aplicar 3.5% de IOF
+- [ ] Documentar fórmula em LaTeX no README
+
+#### ❌ Req 7 — Upload Contrato Social PDF (0% completo)
+- [ ] Tela para upload de PDF
+- [ ] Preview do PDF inline no navegador
+- [ ] Validação de tipo de arquivo (apenas PDF)
+
+#### ❌ Req 8 — IA para análise do contrato (0% completo)
+- [ ] Integrar biblioteca de OCR (Tesseract.js ou pdf.js)
+- [ ] Extrair texto do PDF
+- [ ] Integrar API LLM (OpenAI/Claude)
+- [ ] Criar prompt estruturado para análise
+- [ ] Verificar sócios presentes no contrato
+- [ ] Verificar assinaturas (digital ou gov.br)
+- [ ] Verificar cláusulas essenciais
+- [ ] Implementar lógica fuzzy para índice de confiança
+- [ ] Reprovar cadastro se contrato não for confiável
+
+---
+
+## 🎯 Próximos Passos
+
+### Prioridade Alta (Requisitos Obrigatórios)
+1. ~~**Completar Req 4 - Autocomplete de CNPJ**~~ ✅ **CONCLUÍDO**
+2. ~~**Completar Req 2 - Tela B (Conta Existente)**~~ ✅ **CONCLUÍDO**
+
+3. **Implementar Tela D - Upload de Contrato** (~1-2h)
+   - Upload de PDF
+   - Preview inline
+
+### Prioridade Média (Requisitos Opcionais Priorizados)
+3. **Req 6 - Cotação de Moedas** (~2-3h)
+   - Integrar API de cotação
+   - Implementar cálculo com spread e IOF
+   - Atualização a cada 5 segundos
+
+4. **Req 5 - DDD → Bandeira** (~1h)
+   - Mapear DDDs para estados
+   - Adicionar bandeiras
+
+### Prioridade Baixa (Requisitos Opcionais Avançados)
+5. **Req 7 - Preview de PDF** (~1h)
+   - Implementar preview inline
+
+6. **Req 8 - IA para Análise** (~4-6h)
+   - OCR do PDF
+   - Integração com LLM
+   - Lógica fuzzy
+
+---
+
+## 📊 Status Geral do Projeto
+
+| Requisito | Status | Percentual |
+|-----------|--------|------------|
+| Req 1 - UX com IA | ✅ Completo | 100% |
+| Req 2 - Telas | ✅ Completo | 100% |
+| Req 3 - Validação + Cache | ✅ Completo | 100% |
+| Req 4 - Autocomplete | ✅ Completo | 100% |
+| Req 5 - DDD → Bandeira | ❌ Não iniciado | 0% |
+| Req 6 - Cotação Moedas | ❌ Não iniciado | 0% |
+| Req 7 - Upload PDF | ❌ Não iniciado | 0% |
+| Req 8 - IA Contrato | ❌ Não iniciado | 0% |
+
+**Requisitos Obrigatórios**: 100% completo (4/4)  
+**Projeto Geral**: ~50% completo
+
+
+

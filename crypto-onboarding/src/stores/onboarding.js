@@ -25,11 +25,20 @@ export const useOnboardingStore = defineStore('onboarding', () => {
   }
 
   function loadFromStorage() {
-    const savedCompany = localStorage.getItem('onboarding_company')
-    const savedPartners = localStorage.getItem('onboarding_partners')
+    try {
+      const savedCompany = localStorage.getItem('onboarding_company')
+      const savedPartners = localStorage.getItem('onboarding_partners')
 
-    if (savedCompany) company.value = JSON.parse(savedCompany)
-    if (savedPartners) partners.value = JSON.parse(savedPartners)
+      if (savedCompany) {
+        company.value = JSON.parse(savedCompany)
+      }
+      if (savedPartners) {
+        partners.value = JSON.parse(savedPartners)
+      }
+    } catch (error) {
+      // Se houver erro, limpa o localStorage
+      clearStorage()
+    }
   }
 
   function clearStorage() {
