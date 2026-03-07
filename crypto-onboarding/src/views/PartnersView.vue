@@ -184,7 +184,7 @@ async function handleSubmit() {
 }
 
 function goBack() {
-  router.push('/register')
+  router.push('/')
 }
 </script>
 
@@ -212,7 +212,7 @@ function goBack() {
         <div class="step-line"></div>
         <div class="step">
           <div class="step-circle">3</div>
-          <span class="step-label">Verificação</span>
+          <span class="step-label">Contrato</span>
         </div>
       </div>
     </div>

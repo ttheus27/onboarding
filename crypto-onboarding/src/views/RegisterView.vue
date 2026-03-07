@@ -170,7 +170,7 @@ async function handleSubmit() {
 
         <div class="step">
           <div class="step-circle">3</div>
-          <span class="step-label">Verificação</span>
+          <span class="step-label">Contrato</span>
         </div>
 
       </div>

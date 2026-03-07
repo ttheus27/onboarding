@@ -166,9 +166,16 @@ Reprovar cadastro se contrato não for confiável
   - [x] Edição e remoção de sócios
   - [x] Indicador de participação restante
 
-- [ ] **Tela D**: Upload de contrato social
-  - [ ] Upload de PDF
-  - [ ] Preview do PDF inline no navegador
+- [x] **Tela D**: Upload de contrato social
+  - [x] Upload de PDF
+  - [x] Preview do PDF inline no navegador
+  - [x] Validação de tipo de arquivo (apenas PDF)
+  - [x] Validação de tamanho (máximo 10MB)
+  - [x] Drag & drop de arquivo
+  - [x] Informações do arquivo (nome, tamanho)
+  - [x] Botão para remover arquivo
+  - [x] Finalização do cadastro
+  - [x] Limpeza de cache ao finalizar
 
 #### ✅ Req 3 — Validação e Cache (100% completo)
 - [x] **Validação com Yup**
@@ -224,10 +231,14 @@ Reprovar cadastro se contrato não for confiável
 - [ ] Aplicar 3.5% de IOF
 - [ ] Documentar fórmula em LaTeX no README
 
-#### ❌ Req 7 — Upload Contrato Social PDF (0% completo)
-- [ ] Tela para upload de PDF
-- [ ] Preview do PDF inline no navegador
-- [ ] Validação de tipo de arquivo (apenas PDF)
+#### ❌ Req 7 — Upload Contrato Social PDF (100% completo)
+- [x] Tela para upload de PDF
+- [x] Preview do PDF inline no navegador
+- [x] Validação de tipo de arquivo (apenas PDF)
+- [x] Validação de tamanho (máximo 10MB)
+- [x] Drag & drop
+- [x] Informações do arquivo
+- [x] Botão para remover e reenviar
 
 #### ❌ Req 8 — IA para análise do contrato (0% completo)
 - [ ] Integrar biblioteca de OCR (Tesseract.js ou pdf.js)
@@ -244,16 +255,13 @@ Reprovar cadastro se contrato não for confiável
 
 ## 🎯 Próximos Passos
 
-### Prioridade Alta (Requisitos Obrigatórios)
+### Prioridade Alta (Requisitos)
 1. ~~**Completar Req 4 - Autocomplete de CNPJ**~~ ✅ **CONCLUÍDO**
 2. ~~**Completar Req 2 - Tela B (Conta Existente)**~~ ✅ **CONCLUÍDO**
-
-3. **Implementar Tela D - Upload de Contrato** (~1-2h)
-   - Upload de PDF
-   - Preview inline
+3. ~~**Implementar Tela D - Upload de Contrato**~~ ✅ **CONCLUÍDO**
 
 ### Prioridade Média (Requisitos Opcionais Priorizados)
-3. **Req 6 - Cotação de Moedas** (~2-3h)
+4. **Req 6 - Cotação de Moedas** (~2-3h)
    - Integrar API de cotação
    - Implementar cálculo com spread e IOF
    - Atualização a cada 5 segundos
@@ -283,11 +291,12 @@ Reprovar cadastro se contrato não for confiável
 | Req 4 - Autocomplete | ✅ Completo | 100% |
 | Req 5 - DDD → Bandeira | ❌ Não iniciado | 0% |
 | Req 6 - Cotação Moedas | ❌ Não iniciado | 0% |
-| Req 7 - Upload PDF | ❌ Não iniciado | 0% |
+| Req 7 - Upload PDF | ✅ Completo | 100% |
 | Req 8 - IA Contrato | ❌ Não iniciado | 0% |
 
-**Requisitos Obrigatórios**: 100% completo (4/4)  
-**Projeto Geral**: ~50% completo
+**Requisitos Obrigatórios**: 100% completo (4/4) ✅  
+**Requisitos Opcionais Priorizados**: 25% completo (1/4)  
+**Projeto Geral**: ~60% completo
 
 
 
