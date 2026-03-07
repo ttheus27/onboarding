@@ -1,2 +1,70 @@
-# onboarding
-Repositorio para desafio de contratação transferbank
+# TransferCripto — Onboarding PJ
+
+> Protótipo de onboarding para abertura de conta PJ em uma corretora de criptoativos.
+
+## Sobre o Projeto
+Este projeto foi desenvolvido como resposta ao desafio técnico proposto, com o objetivo de criar um fluxo de onboarding intuitivo, responsivo e integrado a APIs reais, simulando o cadastro de uma empresa (Pessoa Jurídica) em uma corretora de criptoativos.
+
+A experiência foi construída com foco em **UX mobile-first**, **validação inteligente de formulários** e **integração com serviços externos** como ViaCEP e ReceitaWS.
+
+O uso de Agentes de IAs e ferramentas similares foram encorajados para a conclusao do desafio
+
+---
+Desing e UX
+
+O layout e o fluxo de telas foram gerados com auxílio do UX Pilot, ferramenta de IA para design de interfaces.
+Abaixo estão os prompts utilizados:
+
+```
+Faça uma tela inicial de registro, onde são requisitados os seguintes dados:
+CNPJ, nome da empresa, nome fantasia, moeda cripto que deseja operar (BTC, ETH, USDC, USDT), telefone com DDD, e-mail, senha e confirmação de senha.
+O campo de criptomoeda deve ser um dropdown (lista suspensa), e não botões de escolha.
+A interface deverá seguir aproximadamente este padrão de cores:
+Fundo da navbar/rodapé: #2D1B4E (roxo escuro)
+Botão "Criar Conta": #00C9B1 (teal/verde-água)
+Texto escuro: #1A0A3B (roxo muito escuro)
+Destaque de link: #00C9B1 (mesmo teal)
+Fundo da página: #FFFFFF
+Na parte superior, crie uma barra de progresso do registro, mostrando em qual etapa do cadastro o usuário está.
+A página deve conter apenas os elementos relacionados ao registro.
+```
+
+```
+Crie outra tela.
+Tela para registro de sócios: a tela deverá solicitar nome completo, CPF, endereço completo, nacionalidade e participação do sócio.
+Deve haver também uma checkbox indicando se o sócio é PEP.
+Inclua uma área para depósito/upload de arquivos. Logo abaixo, apresente uma lista dos documentos que foram enviados, com um ícone de lixeira ao lado para removê-los.
+```
+```
+Crie outra tela, separada do fluxo de registro que estamos estabelecendo.
+Essa tela será para conta já existente. Deve haver um aviso informando "Conta já existente".
+Logo abaixo, inclua campos para e-mail e senha, além de um botão para recuperar a senha.
+```
+
+OBS: Os prompts foram melhorados com o chatGPT (GPT-5.3)
+
+Logo gerada com o Nano Banana 
+(foto da logo)
+
+Prompt Utilizado:
+```
+(Prompt utilizando para gerar logo)
+```
+
+----
+
+## 🛠️ Stack Tecnológica
+
+| Tecnologia | Versão | Motivo |
+|-----------|--------|--------|
+| **Vue 3** | ^3.4 | Composition API, reatividade moderna |
+| **Pinia** | ^2.1 | Gerenciamento de estado simples e tipado |
+| **Bootstrap 5** | ^5.3 | Grid responsivo mobile-first |
+| **SASS** | ^1.7 | Customização de variáveis e temas |
+| **Yup** | ^1.3 | Validação declarativa de schemas |
+| **Vee-Validate** | ^4.x | Integração do Yup com Vue forms |
+| **Vue Router** | ^4.x | Navegação entre etapas do onboarding |
+| **Axios** | ^1.x | Requisições HTTP para APIs externas |
+
+
+## 🤖 Ferramentas Utilizadas
