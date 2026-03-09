@@ -122,6 +122,62 @@ Lógica fuzzy para calcular índice de confiança
 Reprovar cadastro se contrato não for confiável
 
 ---
+Api usadas
+BrasilAPI: https://brasilapi.com.br/api
+ViaCEP:    https://viacep.com.br/ws
+
+Estruturas de pastas
+src/
+├── views/          # todas as telas juntas
+├── services/       # todos os serviços juntos
+├── stores/         # todas as stores juntas
+└── components/
+
+--
+Como sera feito o REQ 5 das bandeiras
+como nao foi achado nenhuma lib que tras estados do brasil, faremos o seguinte, um grande Json com todos os DDD do brasil
+AC: 68
+AL: 82
+AP: 96
+AM: 92, 97
+BA: 71, 73, 74, 75, 77
+CE: 85, 88
+DF: 61
+ES: 27, 28
+GO: 61, 62, 64
+MA: 98, 99
+MT: 65, 66
+MS: 67
+MG: 31, 32, 33, 34, 35, 37, 38
+PA: 91, 93, 94
+PB: 83
+PR: 41, 42, 43, 44, 45, 46
+PE: 81, 87
+PI: 86, 89
+RJ: 21, 22, 24
+RN: 84
+RS: 51, 53, 54, 55
+RO: 69
+RR: 95
+SC: 47, 48, 49
+SP: 11, 12, 13, 14, 15, 16, 17, 18, 19
+SE: 79
+TO: 63
+
+Sendo esses
+Ficando mais ou menos assim 
+const DDD_MAP = {
+  11: { estado: 'SP', nome: 'São Paulo' },
+  41: { estado: 'PR', nome: 'Curitiba' },
+  // ...todos os DDDs
+}
+se faltar algum na lista add
+
+Todas as bandeiras estao nesse caminho aqui onboarding/crypto-onboarding/src/assets/flags
+La esta cada uma nomeada com seu devido nome
+De certa foma, o cost pode voltar o name ja informando o nome como nome do arquivo, COmo parana.png, ou qualquer outra exteção que tiver 
+No campo de telefone aparecera a bandeira assim que for identificado o DDD que o usuario colocar, 
+--
 
 ## ✅ Checklist de Implementação
 
@@ -216,10 +272,13 @@ Reprovar cadastro se contrato não for confiável
 
 ### Requisitos Opcionais (Priorizados)
 
-#### ❌ Req 5 — DDD → Estado + Bandeira (0% completo)
-- [ ] Identificar estado pelo DDD
-- [ ] Mostrar bandeira do estado ao lado do campo telefone
-- [ ] Biblioteca de bandeiras dos estados
+#### ✅ Req 5 — DDD → Estado + Bandeira (100% completo)
+- [x] Mapa completo de DDDs brasileiros
+- [x] Identificar estado pelo DDD automaticamente
+- [x] Mostrar bandeira do estado ao lado do campo telefone
+- [x] Mostrar sigla do estado (SP, RJ, etc.)
+- [x] Tooltip com nome completo do estado
+- [x] Design integrado com as cores do sistema
 
 #### ❌ Req 6 — Cotação de Moedas (0% completo)
 - [ ] Integrar API de cotação (Alpha Vantage, Yahoo Finance ou Brasil Bitcoin)
@@ -289,14 +348,14 @@ Reprovar cadastro se contrato não for confiável
 | Req 2 - Telas | ✅ Completo | 100% |
 | Req 3 - Validação + Cache | ✅ Completo | 100% |
 | Req 4 - Autocomplete | ✅ Completo | 100% |
-| Req 5 - DDD → Bandeira | ❌ Não iniciado | 0% |
+| Req 5 - DDD → Bandeira | ✅ Completo | 100% |
 | Req 6 - Cotação Moedas | ❌ Não iniciado | 0% |
 | Req 7 - Upload PDF | ✅ Completo | 100% |
 | Req 8 - IA Contrato | ❌ Não iniciado | 0% |
 
 **Requisitos Obrigatórios**: 100% completo (4/4) ✅  
-**Requisitos Opcionais Priorizados**: 25% completo (1/4)  
-**Projeto Geral**: ~60% completo
+**Requisitos Opcionais Priorizados**: 50% completo (2/4)  
+**Projeto Geral**: ~70% completo
 
 
 
