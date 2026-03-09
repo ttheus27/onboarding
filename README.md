@@ -39,12 +39,16 @@ Inclua uma área para depósito/upload de arquivos. Logo abaixo, apresente uma l
 Crie outra tela, separada do fluxo de registro que estamos estabelecendo.
 Essa tela será para conta já existente. Deve haver um aviso informando "Conta já existente".
 Logo abaixo, inclua campos para e-mail e senha, além de um botão para recuperar a senha.
+
 ```
 
 OBS: Os prompts foram melhorados com o chatGPT (GPT-5.3)
 
-Logo gerada com o Nano Banana 
+Logo gerada com o Nano Banana
+
+-
 ![Foto Logo Projeto](./Coisas/Logo.png)
+-
 
 Prompt Utilizado:
 ```
@@ -61,7 +65,8 @@ Utilize uma paleta de cores baseada em:
 
     Branco (#FFFFFF)
 
-A logo deve funcionar bem em fundo claro e escuro, ter boa legibilidade em tamanhos pequenos e possuir um visual moderno, relacionado ao universo de blockchain e criptomoedas.```
+A logo deve funcionar bem em fundo claro e escuro, ter boa legibilidade em tamanhos pequenos e possuir um visual moderno, relacionado ao universo de blockchain e criptomoedas.
+```
 
 ----
 
@@ -105,7 +110,7 @@ O Kiro foi utilizado como IDE inteligente principal durante o desenvolvimento, c
 - Revisão de integração entre Pinia store e componentes Vue
 
 
-## 🔌 APIs Integradas
+## APIs Integradas
 
 | API | Endpoint | Finalidade |
 |-----|----------|-----------|
