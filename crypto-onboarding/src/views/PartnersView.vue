@@ -5,6 +5,7 @@ import { useOnboardingStore } from '../stores/onboarding.js'
 import { storeToRefs } from 'pinia'
 import { partnerSchema, partnersListSchema } from '../services/validators.js'
 import { buscarCEP } from '../services/cep.js'
+import Logo from '../assets/Logo.png'
 
 const router = useRouter()
 const store = useOnboardingStore()
@@ -193,7 +194,10 @@ function goBack() {
     <!-- Header -->
     <header class="partners-header d-flex align-items-center justify-content-between px-4 py-3">
       <button @click="goBack" class="btn-back">← Voltar</button>
-      <div class="logo-text">Sócios</div>
+      <div class="logo d-flex align-items-center gap-2">
+        <img :src="Logo" alt="Logo" class="logo-image" />
+        <span class="logo-text">TransferCripto</span>
+      </div>
       <div style="width: 60px"></div>
     </header>
 
@@ -506,6 +510,12 @@ function goBack() {
   color: #F1F5F9;
   font-size: 0.95rem;
   cursor: pointer;
+}
+
+.logo-image {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
 }
 
 .logo-text {

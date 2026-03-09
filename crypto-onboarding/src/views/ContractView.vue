@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useOnboardingStore } from '../stores/onboarding.js'
+import Logo from '../assets/Logo.png'
 
 const router = useRouter()
 const store = useOnboardingStore()
@@ -101,7 +102,10 @@ function goBack() {
     <!-- Header -->
     <header class="contract-header d-flex align-items-center justify-content-between px-4 py-3">
       <button @click="goBack" class="btn-back">← Voltar</button>
-      <div class="logo-text">Contrato Social</div>
+      <div class="logo d-flex align-items-center gap-2">
+        <img :src="Logo" alt="Logo" class="logo-image" />
+        <span class="logo-text">TransferCripto</span>
+      </div>
       <div style="width: 60px"></div>
     </header>
 
@@ -236,6 +240,12 @@ function goBack() {
 
 .btn-back:hover {
   color: #00C9B1;
+}
+
+.logo-image {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
 }
 
 .logo-text {

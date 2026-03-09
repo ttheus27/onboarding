@@ -44,16 +44,28 @@ Logo abaixo, inclua campos para e-mail e senha, além de um botão para recupera
 OBS: Os prompts foram melhorados com o chatGPT (GPT-5.3)
 
 Logo gerada com o Nano Banana 
-(foto da logo)
+![Foto Logo Projeto](./Coisas/Logo.png)
 
 Prompt Utilizado:
 ```
-(Prompt utilizando para gerar logo)
-```
+Crie uma logo para um site de negociação de criptoativos. A logo deve ter alguma associação visual com a letra "B" do Bitcoin, podendo ser uma adaptação ou estilização desse símbolo.
+
+O design deve transmitir tecnologia, segurança e modernidade.
+Prefira um estilo minimalista e profissional, adequado para uso em um site e em uma navbar.
+
+Utilize uma paleta de cores baseada em:
+
+    Roxo escuro (#2D1B4E)
+
+    Verde teal (#00C9B1)
+
+    Branco (#FFFFFF)
+
+A logo deve funcionar bem em fundo claro e escuro, ter boa legibilidade em tamanhos pequenos e possuir um visual moderno, relacionado ao universo de blockchain e criptomoedas.```
 
 ----
 
-## 🛠️ Stack Tecnológica
+## Stack Tecnológica
 
 | Tecnologia | Versão | Motivo |
 |-----------|--------|--------|
@@ -67,4 +79,19 @@ Prompt Utilizado:
 | **Axios** | ^1.x | Requisições HTTP para APIs externas |
 
 
-## 🤖 Ferramentas Utilizadas
+## Ferramentas Utilizadas
+
+Kiro (Claude Sonnet 4.5)
+IDE inteligente usada como agente de desenvolvimento: geração de componentes Vue, arquitetura do projeto, refatorações e revisão de código em tempo real 
+
+Claude (Anthropic) 
+Suporte a decisões de arquitetura, geração de schemas Yup, validações e lógica de negócio
+
+ChatGPT (OpenAI)
+Apoio na escrita de prompts, brainstorming de fluxo de UX e revisão de textos
+
+UX Pilot
+Geração do fluxo de UX e layout das telas mobile
+
+Nano Banana(Google)
+Criação da logo do projeto.

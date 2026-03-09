@@ -5,6 +5,7 @@ import { useOnboardingStore } from '../stores/onboarding.js'
 import { storeToRefs } from 'pinia'
 import { registerSchema } from '../services/validators.js'
 import { buscarCNPJBrasilAPI } from '../services/cnpj.js'
+import Logo from '../assets/Logo.png'
 
 const router = useRouter()
 const store = useOnboardingStore()
@@ -144,8 +145,8 @@ async function handleSubmit() {
     <!-- Header -->
     <header class="register-header d-flex align-items-center justify-content-between px-4 py-3">
       <div class="logo d-flex align-items-center gap-2">
-        <div class="logo-icon">₿</div>
-        <span class="logo-text">NomeDaCorretora</span>
+        <img :src="Logo" alt="Logo" class="logo-image" />
+        <span class="logo-text">TransferCripto</span>
       </div>
       <div class="menu-icon">☰</div>
     </header>
@@ -416,6 +417,12 @@ async function handleSubmit() {
 }
 
 .steps-container { background-color: #00C9B1; }
+
+.logo-image {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
 
 .logo-icon {
   width: 32px;
