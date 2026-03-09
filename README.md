@@ -95,3 +95,24 @@ Geração do fluxo de UX e layout das telas mobile
 
 Nano Banana(Google)
 Criação da logo do projeto.
+
+### Sobre o uso do **Kiro**
+O Kiro foi utilizado como IDE inteligente principal durante o desenvolvimento, com o modelo Claude Sonnet 4.5 como agente de código. Ele foi especialmente útil para:
+
+- Geração inicial dos componentes de cada etapa do onboarding
+- Sugestões de estrutura de pastas e separação de responsabilidades
+- Refatoração de código repetitivo (ex: campos de formulário)
+- Revisão de integração entre Pinia store e componentes Vue
+
+
+## 🔌 APIs Integradas
+
+| API | Endpoint | Finalidade |
+|-----|----------|-----------|
+| **ViaCEP** | `https://viacep.com.br/ws/{cep}/json/` | Preenchimento automático de endereço |
+| **ReceitaWS** | `https://receitaws.com.br/v1/cnpj/{cnpj}` | Busca de dados da empresa pelo CNPJ |
+
+
+## Demonstração
+(Link Video)
+
