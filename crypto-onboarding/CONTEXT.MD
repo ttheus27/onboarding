@@ -280,15 +280,15 @@ No campo de telefone aparecera a bandeira assim que for identificado o DDD que o
 - [x] Tooltip com nome completo do estado
 - [x] Design integrado com as cores do sistema
 
-#### ❌ Req 6 — Cotação de Moedas (0% completo)
-- [ ] Integrar API de cotação (Alpha Vantage, Yahoo Finance ou Brasil Bitcoin)
-- [ ] Mostrar custo de setup na tela 1
-- [ ] Calcular a partir de $100 USD, 0.00153 BTC ou 0.521 ETH
-- [ ] Exibir em reais com 2 casas decimais (arredondando pra cima)
-- [ ] Atualizar a cada 5 segundos
-- [ ] Aplicar 1% de spread
-- [ ] Aplicar 3.5% de IOF
-- [ ] Documentar fórmula em LaTeX no README
+#### ✅ Req 6 — Cotação de Moedas (100% completo)
+- [x] Integrar API de cotação (CoinGecko - gratuita, sem limite)
+- [x] Mostrar custo de setup na tela 1
+- [x] Calcular a partir de $100 USD, 0.00153 BTC ou 0.521 ETH
+- [x] Exibir em reais com 2 casas decimais (arredondando pra cima)
+- [x] Atualizar a cada 5 segundos
+- [x] Aplicar 1% de spread
+- [x] Aplicar 3.5% de IOF
+- [x] Documentar fórmula em LaTeX no README
 
 #### ❌ Req 7 — Upload Contrato Social PDF (100% completo)
 - [x] Tela para upload de PDF
@@ -349,13 +349,13 @@ No campo de telefone aparecera a bandeira assim que for identificado o DDD que o
 | Req 3 - Validação + Cache | ✅ Completo | 100% |
 | Req 4 - Autocomplete | ✅ Completo | 100% |
 | Req 5 - DDD → Bandeira | ✅ Completo | 100% |
-| Req 6 - Cotação Moedas | ❌ Não iniciado | 0% |
+| Req 6 - Cotação Moedas | ✅ Completo | 100% |
 | Req 7 - Upload PDF | ✅ Completo | 100% |
 | Req 8 - IA Contrato | ❌ Não iniciado | 0% |
 
 **Requisitos Obrigatórios**: 100% completo (4/4) ✅  
-**Requisitos Opcionais Priorizados**: 50% completo (2/4)  
-**Projeto Geral**: ~70% completo
+**Requisitos Opcionais Priorizados**: 75% completo (3/4)  
+**Projeto Geral**: ~80% completo
 
 
 

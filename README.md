@@ -115,7 +115,52 @@ O Kiro foi utilizado como IDE inteligente principal durante o desenvolvimento, c
 | API | Endpoint | Finalidade |
 |-----|----------|-----------|
 | **ViaCEP** | `https://viacep.com.br/ws/{cep}/json/` | Preenchimento automático de endereço |
-| **ReceitaWS** | `https://receitaws.com.br/v1/cnpj/{cnpj}` | Busca de dados da empresa pelo CNPJ |
+| **BrasilAPI** | `https://brasilapi.com.br/api/cnpj/v1/{cnpj}` | Busca de dados da empresa pelo CNPJ |
+| **CoinGecko** | `https://api.coingecko.com/api/v3/simple/price` | Cotações de criptomoedas em tempo real |
+| **AwesomeAPI** | `https://economia.awesomeapi.com.br/json/last/USD-BRL` | Cotação do dólar (alternativa) |
+
+---
+
+## Fórmula de Cálculo do Custo de Setup
+
+O custo de setup da conta é calculado a partir dos valores base em criptomoedas, aplicando spread e IOF:
+
+### Valores Base:
+- **USD**: $100
+- **BTC**: 0.00153 BTC
+- **ETH**: 0.521 ETH
+- **USDC/USDT**: $100 (stablecoins)
+
+### Fórmula (LaTeX):
+
+```latex
+\text{custo\_base} = \text{valor\_em\_USD} \times \text{cotação\_BRL\_USD}
+
+\text{com\_spread} = \text{custo\_base} \times 1.01
+
+\text{com\_iof} = \text{com\_spread} \times 1.035
+
+\text{final} = \left\lceil \text{com\_iof} \times 100 \right\rceil \div 100
+```
+
+### Explicação:
+1. **custo_base**: Converte o valor da criptomoeda para reais usando a cotação atual
+2. **com_spread**: Adiciona 1% de spread sobre o custo base
+3. **com_iof**: Adiciona 3.5% de IOF sobre o valor com spread
+4. **final**: Arredonda para cima com 2 casas decimais (favorece a empresa)
+
+### Exemplo de Cálculo (BTC):
+```
+Cotação BTC: R$ 225.000,00
+Valor base: 0.00153 BTC × R$ 225.000 = R$ 344,25
+Com spread (1%): R$ 344,25 × 1.01 = R$ 347,69
+Com IOF (3.5%): R$ 347,69 × 1.035 = R$ 359,86
+Final (arredondado): R$ 359,86
+```
+
+A cotação é atualizada automaticamente a cada 5 segundos quando uma moeda é selecionada.
+
+---
 
 
 ## Demonstração

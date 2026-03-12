@@ -1,11 +1,12 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useOnboardingStore } from '../stores/onboarding.js'
 import { storeToRefs } from 'pinia'
 import { registerSchema } from '../services/validators.js'
 import { buscarCNPJBrasilAPI } from '../services/cnpj.js'
 import { getEstadoByDDD } from '../services/ddd.js'
+import { obterCustoSetup, formatarReal } from '../services/quotes.js'
 import Logo from '../assets/Logo.png'
 
 const router = useRouter()
@@ -26,9 +27,57 @@ const estadoInfo = computed(() => {
   return getEstadoByDDD(company.value.phone)
 })
 
+// Cotações e custo de setup
+const custoSetup = ref(null)
+const loadingCusto = ref(false)
+const intervalId = ref(null)
+
 onMounted(() => {
   store.loadFromStorage()
+  
+  // Se já houver moeda selecionada, busca o custo
+  if (company.value.cryptos) {
+    atualizarCustoSetup(company.value.cryptos)
+  }
+  
+  // Atualiza a cada 5 segundos se houver moeda selecionada
+  intervalId.value = setInterval(() => {
+    if (company.value.cryptos) {
+      atualizarCustoSetup(company.value.cryptos)
+    }
+  }, 5000)
 })
+
+onUnmounted(() => {
+  // Limpa o intervalo ao desmontar
+  if (intervalId.value) {
+    clearInterval(intervalId.value)
+  }
+})
+
+// Observa mudanças na moeda selecionada
+watch(() => company.value.cryptos, async (novaMoeda) => {
+  if (novaMoeda) {
+    await atualizarCustoSetup(novaMoeda)
+  } else {
+    custoSetup.value = null
+  }
+})
+
+async function atualizarCustoSetup(moeda) {
+  if (!moeda) return
+  
+  loadingCusto.value = true
+  
+  try {
+    const custo = await obterCustoSetup(moeda)
+    custoSetup.value = custo
+  } catch (error) {
+    console.error('Erro ao buscar custo:', error)
+  } finally {
+    loadingCusto.value = false
+  }
+}
 
 function formatCNPJ() {
   let v = company.value.cnpj.replace(/\D/g, '')
@@ -253,6 +302,37 @@ async function handleSubmit() {
           <option value="USDT">USDT — Tether</option>
         </select>
         <small class="text-danger d-block mt-1" v-if="errors.cryptos">{{ errors.cryptos }}</small>
+      </div>
+
+      <!-- Card de Custo de Setup -->
+      <div v-if="custoSetup" class="custo-setup-card mt-3 mb-3">
+        <div class="custo-header">
+          <span class="custo-label">Custo de Setup da Conta</span>
+          <span v-if="loadingCusto" class="spinner-border spinner-border-sm"></span>
+        </div>
+        
+        <div class="custo-valor">
+          {{ formatarReal(parseFloat(custoSetup.total)) }}
+        </div>
+        
+        <div class="custo-detalhes">
+          <div class="detalhe-item">
+            <span>Base ({{ custoSetup.moeda }}):</span>
+            <span>{{ custoSetup.detalhes.custoBase }}</span>
+          </div>
+          <div class="detalhe-item">
+            <span>Spread (1%):</span>
+            <span>R$ {{ custoSetup.spread }}</span>
+          </div>
+          <div class="detalhe-item">
+            <span>IOF (3.5%):</span>
+            <span>R$ {{ custoSetup.iof }}</span>
+          </div>
+        </div>
+        
+        <small class="text-muted d-block text-center">
+          Atualizado em: {{ new Date(custoSetup.timestamp).toLocaleTimeString('pt-BR') }}
+        </small>
       </div>
         <!-- Telefone -->
         <div class="mb-3">
@@ -635,5 +715,52 @@ async function handleSubmit() {
 .form-select.is-invalid:focus {
   border-color: #EF4444 !important;
   box-shadow: 0 0 0 0.25rem rgba(239, 68, 68, 0.25);
+}
+
+/* Card de Custo de Setup */
+.custo-setup-card {
+  background: linear-gradient(135deg, rgba(0, 201, 177, 0.1), rgba(123, 47, 190, 0.1));
+  border: 1px solid #00C9B1;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.custo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.custo-label {
+  font-size: 0.85rem;
+  color: #8B7EAB;
+  font-weight: 600;
+}
+
+.custo-valor {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00C9B1;
+  margin-bottom: 0.75rem;
+}
+
+.custo-detalhes {
+  border-top: 1px solid rgba(0, 201, 177, 0.2);
+  padding-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.detalhe-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #6B7280;
+  margin-bottom: 0.25rem;
+}
+
+.detalhe-item span:last-child {
+  font-weight: 600;
+  color: #1A1A2E;
 }
 </style>

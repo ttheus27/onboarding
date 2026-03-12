@@ -6,7 +6,7 @@ import {
   partnerSchema, 
   partnersListSchema,
   validateAll 
-} from './src/services/validators.js'
+} from '../src/services/validators.js'
 
 // ============================================
 // EXEMPLO 1: Validar dados da empresa

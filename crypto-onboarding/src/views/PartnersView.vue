@@ -34,6 +34,42 @@ const loadingCep = ref(false)
 
 onMounted(() => {
   store.loadFromStorage()
+  
+  // Carrega sócios do CNPJ se disponível e se ainda não há sócios cadastrados
+  const sociosCnpj = localStorage.getItem('cnpj_socios')
+  if (sociosCnpj && partners.value.length === 0) {
+    try {
+      const socios = JSON.parse(sociosCnpj)
+      
+      // Pré-preenche a lista com os nomes dos sócios
+      // Usuário ainda precisa completar CPF, endereço, participação, etc.
+      socios.forEach(socio => {
+        partners.value.push({
+          fullName: socio.nome || '',
+          cpf: '',
+          cep: '',
+          street: '',
+          number: '',
+          complement: '',
+          neighborhood: '',
+          city: '',
+          state: '',
+          nationality: 'Brasileira',
+          participation: 0, // Usuário define manualmente
+          isPep: false,
+          documents: [],
+        })
+      })
+      
+      // Salva no store
+      store.saveToStorage()
+      
+      // Limpa o cache de sócios do CNPJ
+      localStorage.removeItem('cnpj_socios')
+    } catch (error) {
+      console.error('Erro ao carregar sócios do CNPJ:', error)
+    }
+  }
 })
 
 // Calcula participação restante
