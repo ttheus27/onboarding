@@ -31,8 +31,7 @@ function handleLogin() {
   // Simula login (em produção, faria chamada à API)
   setTimeout(() => {
     loading.value = false
-    // Aqui você redirecionaria para o dashboard
-    alert('Login realizado com sucesso! (simulação)')
+    router.push('/welcome') // Redireciona para tela de boas-vindas
   }, 1500)
 }
 

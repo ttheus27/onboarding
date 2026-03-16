@@ -87,8 +87,7 @@ function handleSubmit() {
   setTimeout(() => {
     uploading.value = false
     store.clearStorage() // Limpa cache ao finalizar
-    alert('Cadastro finalizado com sucesso! (simulação)')
-    // Aqui redirecionaria para dashboard ou tela de sucesso
+    router.push('/welcome') // Redireciona para tela de boas-vindas
   }, 2000)
 }
 
