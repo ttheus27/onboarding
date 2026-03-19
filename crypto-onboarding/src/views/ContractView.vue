@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useOnboardingStore } from '../stores/onboarding.js'
+import { validarContrato } from '../services/contract-analysis.js'
 import Logo from '../assets/Logo.png'
 
 const router = useRouter()
@@ -13,6 +14,8 @@ const fileName = ref('')
 const fileSize = ref(0)
 const errors = ref({})
 const uploading = ref(false)
+const analisando = ref(false)
+const resultadoAnalise = ref(null)
 
 onMounted(() => {
   store.loadFromStorage()
@@ -71,6 +74,35 @@ function removeFile() {
   fileName.value = ''
   fileSize.value = 0
   errors.value = {}
+  resultadoAnalise.value = null
+}
+
+async function analisarContrato() {
+  if (!pdfFile.value) return
+  
+  analisando.value = true
+  errors.value = {}
+  
+  try {
+    // Busca sócios do store
+    const socios = store.partners
+    
+    if (!socios || socios.length === 0) {
+      errors.value.analise = 'Nenhum sócio cadastrado. Volte e cadastre os sócios.'
+      return
+    }
+    
+    // Analisa o contrato
+    const resultado = await validarContrato(pdfFile.value, socios)
+    
+    resultadoAnalise.value = resultado
+    
+  } catch (error) {
+    console.error('Erro:', error)
+    errors.value.analise = error.message || 'Erro ao analisar contrato. Tente novamente.'
+  } finally {
+    analisando.value = false
+  }
 }
 
 function handleSubmit() {
@@ -78,6 +110,16 @@ function handleSubmit() {
   
   if (!pdfFile.value) {
     errors.value.file = 'Anexe o contrato social da empresa'
+    return
+  }
+  
+  if (!resultadoAnalise.value) {
+    errors.value.analise = 'Analise o contrato antes de finalizar'
+    return
+  }
+  
+  if (!resultadoAnalise.value.aprovado) {
+    errors.value.analise = `Contrato reprovado (${resultadoAnalise.value.indice}% de confiança). Verifique os critérios abaixo.`
     return
   }
   
@@ -198,8 +240,108 @@ function goBack() {
         </div>
       </div>
 
+      <!-- Botão Analisar -->
+      <button
+        v-if="pdfFile && !resultadoAnalise"
+        @click="analisarContrato"
+        class="btn btn-outline-primary w-100 py-3 mt-3"
+        :disabled="analisando"
+      >
+        <span v-if="!analisando">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" class="me-2" style="vertical-align: text-bottom;">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+          </svg>
+          Analisar Contrato com IA
+        </span>
+        <span v-else>
+          <span class="spinner-border spinner-border-sm me-2"></span>
+          Analisando contrato...
+        </span>
+      </button>
+
+      <!-- Resultado da Análise -->
+      <div v-if="resultadoAnalise" class="analise-card mt-4">
+        <!-- Header do Resultado -->
+        <div class="analise-header" :class="resultadoAnalise.aprovado ? 'approved' : 'rejected'">
+          <div class="result-badge">
+            <span class="badge-icon">{{ resultadoAnalise.aprovado ? '✓' : '✗' }}</span>
+            <span class="badge-text">
+              {{ resultadoAnalise.aprovado ? 'Contrato Aprovado' : 'Contrato Reprovado' }}
+            </span>
+          </div>
+        </div>
+        
+        <!-- Índice de Confiança -->
+        <div class="confidence-section">
+          <div class="confidence-label">Índice de Confiança</div>
+          <div class="progress" style="height: 24px;">
+            <div
+              class="progress-bar"
+              :class="'bg-' + resultadoAnalise.cor"
+              :style="{ width: resultadoAnalise.indice + '%' }"
+            >
+              <strong>{{ resultadoAnalise.indice }}%</strong>
+            </div>
+          </div>
+          <small class="text-muted">Nível: {{ resultadoAnalise.nivel }}</small>
+        </div>
+        
+        <!-- Critérios Avaliados -->
+        <div class="criterios-section mt-3">
+          <div class="criterio-item" :class="resultadoAnalise.sociosPresentes?.status ? 'valid' : 'invalid'">
+            <span class="criterio-icon">
+              {{ resultadoAnalise.sociosPresentes?.status ? '✓' : '✗' }}
+            </span>
+            <div class="criterio-content">
+              <div class="criterio-title">Sócios Presentes</div>
+              <small class="criterio-detail">{{ resultadoAnalise.sociosPresentes?.detalhes }}</small>
+            </div>
+          </div>
+          
+          <div class="criterio-item" :class="resultadoAnalise.assinaturaValida?.status ? 'valid' : 'invalid'">
+            <span class="criterio-icon">
+              {{ resultadoAnalise.assinaturaValida?.status ? '✓' : '✗' }}
+            </span>
+            <div class="criterio-content">
+              <div class="criterio-title">Assinatura Válida</div>
+              <small class="criterio-detail">{{ resultadoAnalise.assinaturaValida?.detalhes }}</small>
+            </div>
+          </div>
+          
+          <div class="criterio-item" :class="resultadoAnalise.clausulasEssenciais?.status ? 'valid' : 'invalid'">
+            <span class="criterio-icon">
+              {{ resultadoAnalise.clausulasEssenciais?.status ? '✓' : '✗' }}
+            </span>
+            <div class="criterio-content">
+              <div class="criterio-title">Cláusulas Essenciais</div>
+              <small class="criterio-detail">{{ resultadoAnalise.clausulasEssenciais?.detalhes }}</small>
+            </div>
+          </div>
+          
+          <div class="criterio-item" :class="resultadoAnalise.formatoValido?.status ? 'valid' : 'invalid'">
+            <span class="criterio-icon">
+              {{ resultadoAnalise.formatoValido?.status ? '✓' : '✗' }}
+            </span>
+            <div class="criterio-content">
+              <div class="criterio-title">Formato Válido</div>
+              <small class="criterio-detail">{{ resultadoAnalise.formatoValido?.detalhes }}</small>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Resumo -->
+        <div class="resumo-section mt-3">
+          <p class="mb-0">{{ resultadoAnalise.resumo }}</p>
+        </div>
+      </div>
+
+      <!-- Erro de análise -->
+      <small class="text-danger d-block mt-2" v-if="errors.analise">{{ errors.analise }}</small>
+
       <!-- Botão Finalizar -->
       <button
+        v-if="resultadoAnalise?.aprovado"
         @click="handleSubmit"
         class="btn btn-gradient w-100 py-3 mt-4"
         :disabled="uploading"
@@ -209,6 +351,17 @@ function goBack() {
           <span class="spinner-border spinner-border-sm me-2"></span>
           Finalizando...
         </span>
+      </button>
+
+      <!-- Botão Finalizar (desabilitado se não analisou ou reprovado) -->
+      <button
+        v-if="pdfFile && !resultadoAnalise?.aprovado"
+        @click="handleSubmit"
+        class="btn btn-gradient w-100 py-3 mt-4"
+        disabled
+        style="opacity: 0.5; cursor: not-allowed;"
+      >
+        {{ !resultadoAnalise ? 'Analise o contrato para continuar' : 'Contrato Reprovado' }}
       </button>
     </div>
   </div>
@@ -424,5 +577,156 @@ function goBack() {
 .btn-gradient:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Card de Análise */
+.analise-card {
+  border: 2px solid #E2E8F0;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #F8F9FA;
+}
+
+.analise-header {
+  padding: 1rem;
+  text-align: center;
+}
+
+.analise-header.approved {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(0, 201, 177, 0.1));
+  border-bottom: 2px solid #10B981;
+}
+
+.analise-header.rejected {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
+  border-bottom: 2px solid #EF4444;
+}
+
+.result-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.badge-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.approved .badge-icon {
+  background-color: #10B981;
+  color: white;
+}
+
+.rejected .badge-icon {
+  background-color: #EF4444;
+  color: white;
+}
+
+.badge-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.approved .badge-text {
+  color: #10B981;
+}
+
+.rejected .badge-text {
+  color: #EF4444;
+}
+
+/* Seção de Confiança */
+.confidence-section {
+  padding: 1rem;
+  background-color: white;
+}
+
+.confidence-label {
+  font-size: 0.85rem;
+  color: #6B7280;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Critérios */
+.criterios-section {
+  padding: 0 1rem 1rem;
+  background-color: white;
+}
+
+.criterio-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.criterio-item.valid {
+  background-color: rgba(16, 185, 129, 0.05);
+  border-left: 3px solid #10B981;
+}
+
+.criterio-item.invalid {
+  background-color: rgba(239, 68, 68, 0.05);
+  border-left: 3px solid #EF4444;
+}
+
+.criterio-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.valid .criterio-icon {
+  background-color: #10B981;
+  color: white;
+}
+
+.invalid .criterio-icon {
+  background-color: #EF4444;
+  color: white;
+}
+
+.criterio-content {
+  flex: 1;
+}
+
+.criterio-title {
+  font-weight: 600;
+  color: #251848;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.criterio-detail {
+  color: #6B7280;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Resumo */
+.resumo-section {
+  padding: 1rem;
+  background-color: rgba(0, 201, 177, 0.05);
+  border-top: 1px solid #E2E8F0;
+  font-size: 0.9rem;
+  color: #251848;
+  line-height: 1.5;
 }
 </style>

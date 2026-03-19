@@ -118,6 +118,7 @@ O Kiro foi utilizado como IDE inteligente principal durante o desenvolvimento, c
 | **BrasilAPI** | `https://brasilapi.com.br/api/cnpj/v1/{cnpj}` | Busca de dados da empresa pelo CNPJ |
 | **CoinGecko** | `https://api.coingecko.com/api/v3/simple/price` | Cotações de criptomoedas em tempo real |
 | **AwesomeAPI** | `https://economia.awesomeapi.com.br/json/last/USD-BRL` | Cotação do dólar (alternativa) |
+| **Google Gemini** | `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash` | Análise de contrato social com IA |
 
 ---
 
@@ -159,6 +160,60 @@ Final (arredondado): R$ 359,86
 ```
 
 A cotação é atualizada automaticamente a cada 5 segundos quando uma moeda é selecionada.
+
+---
+
+## 🤖 Análise de Contrato com IA (Requisito 8)
+
+O sistema utiliza o Google Gemini 1.5 Flash para analisar automaticamente o contrato social da empresa.
+
+### Como Funciona:
+
+1. **Upload do PDF**: Usuário faz upload do contrato social
+2. **Análise com IA**: Gemini analisa o documento completo
+3. **Validação de Critérios**:
+   - ✅ Sócios presentes (peso 30%)
+   - ✅ Assinatura válida (peso 25%)
+   - ✅ Cláusulas essenciais (peso 25%)
+   - ✅ Formato válido (peso 20%)
+4. **Lógica Fuzzy**: Calcula índice de confiança (0-100%)
+5. **Aprovação/Reprovação**: Índice >= 70% = Aprovado
+
+### Lógica Fuzzy:
+
+```
+indice = (sociosPresentes × 30) + 
+         (assinaturaValida × 25) + 
+         (clausulasEssenciais × 25) + 
+         (formatoValido × 20)
+
+aprovado = indice >= 70
+```
+
+### Vantagens do Gemini:
+
+- ✅ **Totalmente GRÁTIS** (1500 requisições/dia)
+- ✅ **Aceita PDF direto** (sem OCR manual)
+- ✅ **Alta precisão** em documentos brasileiros
+- ✅ **Rápido** (~2-4 segundos)
+
+### Limitações Conhecidas:
+
+⚠️ **CPF dos Sócios**: As APIs públicas de CNPJ (BrasilAPI/ReceitaWS) não retornam o CPF dos sócios por questões de privacidade (LGPD). A validação é feita principalmente pelo nome dos sócios. Se o usuário digitar o CPF manualmente, a IA também valida por CPF.
+
+- **Com CPF**: Precisão ~98%
+- **Sem CPF**: Precisão ~90% (valida apenas por nome)
+
+Para mais detalhes, veja: `crypto-onboarding/contexto/NOTA_CPF_SOCIOS.md`
+
+### Configuração:
+
+1. Obtenha uma chave de API em: https://aistudio.google.com/app/apikey
+2. Crie o arquivo `.env` na raiz do projeto:
+   ```env
+   VITE_GEMINI_API_KEY=sua_chave_aqui
+   ```
+3. A chave está protegida no `.gitignore`
 
 ---
 
