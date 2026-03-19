@@ -195,29 +195,27 @@ async function handleSubmit() {
 }
 </script>
 <template>
-  <div class="register-page">
+  <!-- Header (fora do container) -->
+  <header class="register-header d-flex align-items-center justify-content-between px-4 py-3">
+    <div class="logo d-flex align-items-center gap-2">
+      <img :src="Logo" alt="Logo" class="logo-image" />
+      <span class="logo-text">TransferCripto</span>
+    </div>
+    <div class="menu-icon">☰</div>
+  </header>
 
-    <!-- Header -->
-    <header class="register-header d-flex align-items-center justify-content-between px-4 py-3">
-      <div class="logo d-flex align-items-center gap-2">
-        <img :src="Logo" alt="Logo" class="logo-image" />
-        <span class="logo-text">TransferCripto</span>
+  <!-- Steps (fora do container) -->
+  <div class="steps-container px-4 pt-3 pb-2">
+    <div class="d-flex align-items-center justify-content-center gap-0">
+
+      <div class="step active">
+        <div class="step-circle">1</div>
+        <span class="step-label">Empresa</span>
       </div>
-      <div class="menu-icon">☰</div>
-    </header>
 
-    <!-- Steps -->
-    <div class="steps-container px-4 pt-3 pb-2">
-      <div class="d-flex align-items-center justify-content-center gap-0">
+      <div class="step-line"></div>
 
-        <div class="step active">
-          <div class="step-circle">1</div>
-          <span class="step-label">Empresa</span>
-        </div>
-
-        <div class="step-line"></div>
-
-        <div class="step">
+      <div class="step">
           <div class="step-circle">2</div>
           <span class="step-label">Sócios</span>
         </div>
@@ -232,7 +230,8 @@ async function handleSubmit() {
       </div>
     </div>
 
-    <!-- Formulário -->
+  <!-- Formulário (dentro do container centralizado) -->
+  <div class="register-page">
     <div class="form-container px-4 pb-5">
       <h2 class="form-title mt-3 mb-1">Dados da Empresa</h2>
       <p class="form-subtitle mb-4">Preencha os dados iniciais para configurar sua conta empresarial.</p>
@@ -498,12 +497,92 @@ async function handleSubmit() {
 </template>
 
 <style scoped>
+/* Header e Steps ocupam 100% da largura */
+.register-header,
+.steps-container {
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+
+.register-header {
+  background-color: #1A1035;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.steps-container { 
+  background-color: #E2E8F0; 
+}
+
+/* Container do formulário centralizado */
 .register-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 140px);
   background-color: #FFFFFF;
   color: #1A1A2E;
+  margin: 0 auto;
+}
+
+/* Formulário centralizado com max-width */
+.form-container {
   max-width: 480px;
   margin: 0 auto;
+}
+
+/* Responsivo para Tablet */
+@media (min-width: 768px) {
+  .form-container {
+    max-width: 720px;
+    padding: 2rem 3rem !important;
+  }
+  
+  .form-title {
+    font-size: 1.75rem;
+  }
+  
+  .step-circle {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .step-line {
+    width: 100px;
+  }
+}
+
+/* Responsivo para Desktop */
+@media (min-width: 1024px) {
+  .form-container {
+    max-width: 960px;
+    padding: 2.5rem 4rem !important;
+  }
+  
+  .form-title {
+    font-size: 2rem;
+  }
+  
+  .step-line {
+    width: 140px;
+  }
+}
+
+/* Responsivo para Wide Screen */
+@media (min-width: 1440px) {
+  .form-container {
+    max-width: 1400px;
+    padding: 3rem 5rem !important;
+  }
+}
+
+/* Responsivo para Ultra Wide */
+@media (min-width: 1920px) {
+  .form-container {
+    max-width: 1600px;
+    padding: 3rem 6rem !important;
+  }
 }
 
 .register-header {

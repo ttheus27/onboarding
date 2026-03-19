@@ -7,12 +7,56 @@
 // Fonte Inter
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+// ── Breakpoints Responsivos ────────────────────
+$mobile: 480px;
+$tablet: 768px;
+$desktop: 1024px;
+$wide: 1440px;
+
 // ── Base ────────────────────────────────────────
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background-color: $bg-primary;
   color: $text-primary;
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#app {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+// ── Container Responsivo ────────────────────────
+.register-page,
+.contract-page,
+.partners-page,
+.existing-account-page,
+.welcome-page {
+  max-width: 480px; // Mobile first
+  margin: 0 auto;
+  
+  @media (min-width: $tablet) {
+    max-width: 720px; // Tablet
+  }
+  
+  @media (min-width: $desktop) {
+    max-width: 960px; // Desktop
+  }
+  
+  @media (min-width: $wide) {
+    max-width: 1200px; // Wide screen
+  }
 }
 
 // ── Cards ───────────────────────────────────────
@@ -20,7 +64,15 @@ body {
   background-color: $bg-card;
   border: 1px solid $bg-surface;
   border-radius: 16px;
-  padding: 2rem;
+  padding: 1.5rem;
+  
+  @media (min-width: $tablet) {
+    padding: 2rem;
+  }
+  
+  @media (min-width: $desktop) {
+    padding: 2.5rem;
+  }
 }
 
 // ── Inputs ──────────────────────────────────────
@@ -29,6 +81,11 @@ body {
   background-color: $bg-surface;
   border-color: $bg-surface;
   color: $text-primary;
+  font-size: 0.95rem;
+
+  @media (min-width: $tablet) {
+    font-size: 1rem;
+  }
 
   &:focus {
     background-color: $bg-surface;
@@ -50,6 +107,11 @@ body {
   font-weight: 600;
   letter-spacing: 0.3px;
   transition: opacity 0.2s;
+  font-size: 0.95rem;
+  
+  @media (min-width: $tablet) {
+    font-size: 1rem;
+  }
 
   &:hover {
     opacity: 0.88;
@@ -67,4 +129,129 @@ body {
   font-size: 0.85rem;
   font-weight: 500;
   margin-bottom: 0.4rem;
+  
+  @media (min-width: $tablet) {
+    font-size: 0.9rem;
+  }
+}
+
+// ── Grid Responsivo ─────────────────────────────
+.form-row-responsive {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  
+  @media (min-width: $tablet) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: $desktop) {
+    gap: 2rem;
+  }
+}
+
+.form-row-responsive-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  
+  @media (min-width: $tablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (min-width: $desktop) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+// ── Títulos Responsivos ─────────────────────────
+.form-title {
+  font-size: 1.4rem;
+  
+  @media (min-width: $tablet) {
+    font-size: 1.75rem;
+  }
+  
+  @media (min-width: $desktop) {
+    font-size: 2rem;
+  }
+}
+
+.form-subtitle {
+  font-size: 0.9rem;
+  
+  @media (min-width: $tablet) {
+    font-size: 1rem;
+  }
+}
+
+// ── Header Responsivo ───────────────────────────
+.register-header,
+.contract-header,
+.existing-header {
+  padding: 0.75rem 1rem !important;
+  
+  @media (min-width: $tablet) {
+    padding: 1rem 2rem !important;
+  }
+  
+  @media (min-width: $desktop) {
+    padding: 1.25rem 3rem !important;
+  }
+}
+
+// ── Form Container Responsivo ───────────────────
+.form-container {
+  padding: 1rem !important;
+  
+  @media (min-width: $tablet) {
+    padding: 1.5rem 2rem !important;
+  }
+  
+  @media (min-width: $desktop) {
+    padding: 2rem 3rem !important;
+  }
+}
+
+// ── Steps Responsivos ───────────────────────────
+.steps-container {
+  padding: 0.75rem 1rem !important;
+  
+  @media (min-width: $tablet) {
+    padding: 1rem 2rem !important;
+  }
+}
+
+.step-circle {
+  width: 32px;
+  height: 32px;
+  font-size: 0.85rem;
+  
+  @media (min-width: $tablet) {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+.step-label {
+  font-size: 0.7rem;
+  
+  @media (min-width: $tablet) {
+    font-size: 0.85rem;
+  }
+}
+
+.step-line {
+  width: 40px;
+  
+  @media (min-width: $tablet) {
+    width: 80px;
+  }
+  
+  @media (min-width: $desktop) {
+    width: 120px;
+  }
 }
