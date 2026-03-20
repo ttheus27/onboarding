@@ -22,6 +22,10 @@ export const useOnboardingStore = defineStore('onboarding', () => {
   function saveToStorage() {
     localStorage.setItem('onboarding_company', JSON.stringify(company.value))
     localStorage.setItem('onboarding_partners', JSON.stringify(partners.value))
+    console.log('💾 Dados salvos no cache:', {
+      company: company.value,
+      partners: partners.value
+    })
   }
 
   function loadFromStorage() {
@@ -31,21 +35,26 @@ export const useOnboardingStore = defineStore('onboarding', () => {
 
       if (savedCompany) {
         company.value = JSON.parse(savedCompany)
+        console.log('✅ Dados da empresa carregados do cache')
       }
       if (savedPartners) {
         partners.value = JSON.parse(savedPartners)
+        console.log('✅ Dados dos sócios carregados do cache')
       }
     } catch (error) {
-      // Se houver erro, limpa o localStorage
-      clearStorage()
+      // Log do erro mas NÃO limpa automaticamente
+      console.error('❌ Erro ao carregar cache:', error)
+      console.warn('⚠️ Cache pode estar corrompido. Use clearStorage() manualmente se necessário.')
     }
   }
 
   function clearStorage() {
     localStorage.removeItem('onboarding_company')
     localStorage.removeItem('onboarding_partners')
-    company.value = { cnpj: '', companyName: '', fantasyName: '', cryptos: [], phone: '', email: '', password: '', passwordConfirm: '' }
+    localStorage.removeItem('cnpj_socios') // Limpa também os sócios do CNPJ
+    company.value = { cnpj: '', companyName: '', fantasyName: '', cryptos: '', phone: '', email: '', password: '', passwordConfirm: '' }
     partners.value = []
+    console.log('🗑️ Cache limpo')
   }
 
   return {

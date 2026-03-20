@@ -139,38 +139,38 @@ function goBack() {
 </script>
 
 <template>
-  <div class="contract-page">
-    <!-- Header -->
-    <header class="contract-header d-flex align-items-center justify-content-between px-4 py-3">
-      <button @click="goBack" class="btn-back">← Voltar</button>
-      <div class="logo d-flex align-items-center gap-2">
-        <img :src="Logo" alt="Logo" class="logo-image" />
-        <span class="logo-text">TransferCripto</span>
-      </div>
-      <div style="width: 60px"></div>
-    </header>
+  <!-- Header (fora do container) -->
+  <header class="register-header d-flex align-items-center justify-content-between px-4 py-3">
+    <button @click="goBack" class="btn-back">← Voltar</button>
+    <div class="logo d-flex align-items-center gap-2">
+      <img :src="Logo" alt="Logo" class="logo-image" />
+      <span class="logo-text">TransferCripto</span>
+    </div>
+    <div class="menu-icon">☰</div>
+  </header>
 
-    <!-- Steps -->
-    <div class="steps-container px-4 pt-3 pb-2">
-      <div class="d-flex align-items-center justify-content-center gap-0">
-        <div class="step completed">
-          <div class="step-circle">✓</div>
-          <span class="step-label">Empresa</span>
-        </div>
-        <div class="step-line active"></div>
-        <div class="step completed">
-          <div class="step-circle">✓</div>
-          <span class="step-label">Sócios</span>
-        </div>
-        <div class="step-line active"></div>
-        <div class="step active">
-          <div class="step-circle">3</div>
-          <span class="step-label">Contrato</span>
-        </div>
+  <!-- Steps (fora do container) -->
+  <div class="steps-container px-4 pt-3 pb-2">
+    <div class="d-flex align-items-center justify-content-center gap-0">
+      <div class="step completed">
+        <div class="step-circle">✓</div>
+        <span class="step-label">Empresa</span>
+      </div>
+      <div class="step-line active"></div>
+      <div class="step completed">
+        <div class="step-circle">✓</div>
+        <span class="step-label">Sócios</span>
+      </div>
+      <div class="step-line active"></div>
+      <div class="step active">
+        <div class="step-circle">3</div>
+        <span class="step-label">Contrato</span>
       </div>
     </div>
+  </div>
 
-    <!-- Conteúdo -->
+  <!-- Conteúdo (dentro do container centralizado) -->
+  <div class="contract-page">
     <div class="form-container px-4 pb-5">
       <h2 class="form-title mt-3 mb-1">Contrato Social</h2>
       <p class="form-subtitle mb-4">
@@ -368,17 +368,70 @@ function goBack() {
 </template>
 
 <style scoped>
+/* Header e Steps ocupam 100% da largura */
+.register-header,
+.steps-container {
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+
+.register-header {
+  background-color: #1A1035;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.steps-container { 
+  background-color: #E2E8F0; 
+}
+
+/* Container do formulário centralizado */
 .contract-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 140px);
   background-color: #FFFFFF;
   color: #1A1A2E;
+  margin: 0 auto;
+}
+
+/* Formulário centralizado com max-width */
+.form-container {
   max-width: 480px;
   margin: 0 auto;
 }
 
-.contract-header {
-  background-color: #1A1035;
-  border-bottom: 1px solid #E2E8F0;
+/* Responsivo para Tablet */
+@media (min-width: 768px) {
+  .form-container {
+    max-width: 720px;
+    padding: 2rem 3rem !important;
+  }
+}
+
+/* Responsivo para Desktop */
+@media (min-width: 1024px) {
+  .form-container {
+    max-width: 960px;
+    padding: 2.5rem 4rem !important;
+  }
+}
+
+/* Responsivo para Wide Screen */
+@media (min-width: 1440px) {
+  .form-container {
+    max-width: 1400px;
+    padding: 3rem 5rem !important;
+  }
+}
+
+/* Responsivo para Ultra Wide */
+@media (min-width: 1920px) {
+  .form-container {
+    max-width: 1600px;
+    padding: 3rem 6rem !important;
+  }
 }
 
 .btn-back {
@@ -406,9 +459,13 @@ function goBack() {
   color: #F1F5F9;
 }
 
-/* Steps */
-.steps-container { background-color: #E2E8F0; }
+.menu-icon {
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #8B7EAB;
+}
 
+/* Steps */
 .step {
   display: flex;
   flex-direction: column;

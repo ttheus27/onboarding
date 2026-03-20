@@ -74,18 +74,18 @@ function toggleRecovery() {
 </script>
 
 <template>
-  <div class="existing-account-page">
-    <!-- Header -->
-    <header class="existing-header d-flex align-items-center justify-content-between px-4 py-3">
-      <button @click="goBack" class="btn-back">← Voltar</button>
-      <div class="logo d-flex align-items-center gap-2">
-        <img :src="Logo" alt="Logo" class="logo-image" />
-        <span class="logo-text">TransferCripto</span>
-      </div>
-      <div style="width: 60px"></div>
-    </header>
+  <!-- Header (fora do container) -->
+  <header class="register-header d-flex align-items-center justify-content-between px-4 py-3">
+    <button @click="goBack" class="btn-back">← Voltar</button>
+    <div class="logo d-flex align-items-center gap-2">
+      <img :src="Logo" alt="Logo" class="logo-image" />
+      <span class="logo-text">TransferCripto</span>
+    </div>
+    <div class="menu-icon">☰</div>
+  </header>
 
-    <!-- Conteúdo -->
+  <!-- Conteúdo (dentro do container centralizado) -->
+  <div class="existing-account-page">
     <div class="content-container px-4 pb-5">
       <!-- Ícone de alerta -->
       <div class="alert-icon-wrapper text-center mt-5 mb-4">
@@ -226,17 +226,62 @@ function toggleRecovery() {
 </template>
 
 <style scoped>
+/* Header ocupa 100% da largura */
+.register-header {
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+  background-color: #1A1035;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+/* Container do conteúdo centralizado */
 .existing-account-page {
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
   background-color: #FFFFFF;
   color: #1A1A2E;
+  margin: 0 auto;
+}
+
+/* Conteúdo centralizado com max-width */
+.content-container {
   max-width: 480px;
   margin: 0 auto;
 }
 
-.existing-header {
-  background-color: #1A1035;
-  border-bottom: 1px solid #E2E8F0;
+/* Responsivo para Tablet */
+@media (min-width: 768px) {
+  .content-container {
+    max-width: 720px;
+    padding: 2rem 3rem !important;
+  }
+}
+
+/* Responsivo para Desktop */
+@media (min-width: 1024px) {
+  .content-container {
+    max-width: 960px;
+    padding: 2.5rem 4rem !important;
+  }
+}
+
+/* Responsivo para Wide Screen */
+@media (min-width: 1440px) {
+  .content-container {
+    max-width: 1400px;
+    padding: 3rem 5rem !important;
+  }
+}
+
+/* Responsivo para Ultra Wide */
+@media (min-width: 1920px) {
+  .content-container {
+    max-width: 1600px;
+    padding: 3rem 6rem !important;
+  }
 }
 
 .btn-back {
@@ -262,6 +307,12 @@ function toggleRecovery() {
   font-weight: 700;
   font-size: 1.1rem;
   color: #F1F5F9;
+}
+
+.menu-icon {
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #8B7EAB;
 }
 
 /* Ícone de alerta */

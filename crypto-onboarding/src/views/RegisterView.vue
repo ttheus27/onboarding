@@ -33,7 +33,10 @@ const loadingCusto = ref(false)
 const intervalId = ref(null)
 
 onMounted(() => {
+  console.log('🔄 RegisterView montado, carregando cache...')
   store.loadFromStorage()
+  
+  console.log('📊 Estado atual após carregar:', company.value)
   
   // Se já houver moeda selecionada, busca o custo
   if (company.value.cryptos) {
@@ -63,6 +66,12 @@ watch(() => company.value.cryptos, async (novaMoeda) => {
     custoSetup.value = null
   }
 })
+
+// Salva automaticamente no cache sempre que os dados mudarem
+watch(company, (novosDados) => {
+  console.log('💾 Auto-salvando dados no cache...')
+  store.saveToStorage()
+}, { deep: true })
 
 async function atualizarCustoSetup(moeda) {
   if (!moeda) return
@@ -184,6 +193,7 @@ async function handleSubmit() {
     return
   }
 
+  console.log('📝 Salvando dados antes de navegar...')
   store.saveToStorage()
 
   if (company.value.email === 'exists@transferpay.exchange') {
