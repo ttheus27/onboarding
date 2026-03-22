@@ -230,13 +230,25 @@ function goBack() {
 
         <!-- Preview do PDF -->
         <div class="pdf-preview">
-          <iframe
-            :src="pdfUrl"
-            type="application/pdf"
-            width="100%"
-            height="600px"
-            style="border: none; border-radius: 8px;"
-          ></iframe>
+          <!-- Botão para abrir PDF em nova aba (melhor para mobile) -->
+          <a :href="pdfUrl" target="_blank" class="btn btn-outline-secondary w-100 mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16" class="me-2" style="vertical-align: text-bottom;">
+              <path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+              <path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+            </svg>
+            Abrir PDF em nova aba
+          </a>
+          
+          <!-- Preview do PDF (funciona melhor em desktop) -->
+          <div class="pdf-iframe-container">
+            <iframe
+              :src="pdfUrl"
+              type="application/pdf"
+              width="100%"
+              height="600px"
+              style="border: none; border-radius: 8px;"
+            ></iframe>
+          </div>
         </div>
       </div>
 
@@ -612,8 +624,22 @@ function goBack() {
 .pdf-preview {
   margin-top: 1rem;
   border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Esconde iframe em mobile, mostra apenas botão */
+@media (max-width: 767px) {
+  .pdf-iframe-container {
+    display: none;
+  }
+}
+
+/* Em desktop, mostra iframe */
+@media (min-width: 768px) {
+  .pdf-iframe-container {
+    margin-top: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
 }
 
 /* Botão */
